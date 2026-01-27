@@ -1,0 +1,111 @@
+EBS (Elastic Block Storage)
+
+1. This are the root volume  mean bootable volume a. SSD(GP2 & GP3 General Purpose) B. Provision IOPS (Io1 & io2 ) c. magnetic Standard 
+2.  This is are non bootable volume (non root volume) a. Cold HDD SC1 B. Throughput Optimized (st1) 
+3. 
+
+Add Extra volume to Ec2 instance 
+
+High-Level Steps
+
+Create a new EBS volume (AZ must match EC2 AZ Availability Zone: same AZ as EC2)
+
+Attach the volume to EC2 ( Device name: /dev/sdf (AWS name) )
+
+Detect the disk in OS ( lsblk )
+
+Create filesystem ( sudo mkfs -t ext4 /dev/xvdf )
+
+Mount the volume ( sudo mkdir /data , sudo mount /dev/xvdf /data , df -h )
+
+Make it persistent ( blkid /dev/xvdf (UUID will get) , sudo vi /etc/fstab , UUID="abc-123-xyz"  /data  ext4  defaults,nofail  0  2 )
+
+test 
+
+sudo mount -a
+
+Done! Volume Added Successfully
+
+
+Snapshot 
+
+1. We can create the snapshot using existing the instance and volume as well
+2. If volume is not encrypted then snapshot also will be non encrypted , 
+
+Modify Permission:
+If we want to change the permission of snapshot from private to public then we will change 
+If we want to shared the snapshot to different AWS account then add the account ID and shared the will specific permission.
+
+
+Copy Snapshot
+3. If we want to encrypt the data from snapshot then we need to be the copy the snapshot (Click action button and select copy snapshot ) and select the encryption check, provide the encrytions  KMS key .
+4. from one region to another region copy the snapshot.
+
+
+Create Volume from snapshot
+
+5. Click on actions button and select the create volume from snapshot
+6. If we want to change the AZ for this volume, we can't change the region here.
+7. we can change the volume type as well GP3, Gp2 ...etc
+8. If we want enable the encryption of this new created volume then select encryption and provide the KMS key
+
+
+Create Image(AMI) From snapshot
+
+9. here we can able to select the volume type 
+10. In the AMI this are the thing will included from snapshot
+From the snapshot, the AMI includes everything stored on the EBS volume, such as:
+Operating System (Linux/Windows)
+
+Installed packages & software
+
+nginx, apache, java, python, docker, etc.
+
+Application code
+
+Configuration files
+
+/etc, /opt, /var, /usr/local
+
+System users & groups
+
+Environment variables (if stored in files)
+
+Logs present at snapshot time
+
+Cron jobs
+
+Instance-Specific Information (NOT Included)
+
+Instance ID
+
+Public IP
+
+Private IP
+
+Elastic IP
+
+Hostname (will be regenerated)
+
+Instance state (running/stopped)
+❌ AWS Resources (External)
+
+IAM role attachment (role can be reattached later)
+
+Security Groups
+
+Key Pair
+
+Auto Scaling Group config
+
+Load Balancer attachment
+
+CloudWatch alarms
+
+
+AMI(Amazon Machine Image)
+
+Launch Instance from AMI
+Copy AMI( If we want to copy this AMI from one region to another then select the Destination Region name)
+Edit AMI permissions ( If we want to change shared the this AMI to another AWS account or orgnasations OU then select this option)
+Request Spot Instance ( if we want to create the spot instance the select this option)
