@@ -1,0 +1,76 @@
+VPC ( Virtual private Cloud )
+
+What is VPC :- 
+
+VPC is a logically isolated virtual network in AWS that allows us to securely deploy cloud resources with complete control over networking, security, routing, and connectivity. It enables scalable, secure, and production-grade architectures.
+
+CIDR ( Classless Inter-Domain Routing )
+It is a method to define IP address ranges in networking and cloud platforms like AWS VPC, Kubernetes, and on-prem networks.
+
+Before CIDR, IPs were divided into fixed classes (A, B, C).
+This caused IP wastage and poor scalability.
+
+CIDR solves this by:
+
+Allowing flexible IP ranges
+
+Efficient IP utilization
+
+Better network planning
+
+10.0.0.0/16 65,536 IPS
+
+For every subnet, AWS reserves 5 IP addresses: Network address, VPC router,Future use,Broadcast
+
+Subnet:-
+VPC = Big network
+Subnet = Smaller pieces of that network
+
+Each subnet:
+
+Belongs to one VPC
+
+Exists in one Availability Zone (AZ)
+
+Uses a portion of the VPC CIDR
+
+🔹 Public Subnet
+
+A subnet is public if:
+
+It has a route to Internet Gateway (IGW)
+
+Instances can get public IPs
+
+Used for:
+
+Load Balancers (ALB/NLB)
+
+Bastion Hosts
+
+NAT Gateway
+
+🔹 Private Subnet
+
+A subnet is private if:
+
+No direct route to IGW
+
+Internet access via NAT Gateway (optional)
+
+Used for:
+
+Application servers
+
+EKS worker nodes
+
+Databases (RDS)
+
+Internet Gatway:- 
+
+Internet Gateway = Door between your VPC and the Internet
+
+Route Table:-
+
+Subnet is public or private based on route table only
+Route Table = Traffic direction map for a subnet
